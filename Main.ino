@@ -1,4 +1,5 @@
 #include "LedStick.h"
+#include "Led.h"
 
 LedStick* ledStick;
 
