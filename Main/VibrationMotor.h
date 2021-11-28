@@ -1,13 +1,8 @@
-enum VibrationPriority {
-  low,
-  high
-};
-
 class VibrationMotor {
   public:
     VibrationMotor(int pin);
     void begin();
-    void vibrate(VibrationPriority priority);
+    void vibrate(AlertPriority priority);
 
   private:
     int _pin;
@@ -23,7 +18,7 @@ void VibrationMotor::begin() {
   pinMode(_pin, OUTPUT);
 }
 
-void VibrationMotor::vibrate(VibrationPriority priority) {
+void VibrationMotor::vibrate(AlertPriority priority) {
   switch (priority) {
     case low:
       vibrateLow();
@@ -35,21 +30,13 @@ void VibrationMotor::vibrate(VibrationPriority priority) {
 }
 
 void VibrationMotor::vibrateHigh() {
-  for(int i = 0; i < 10; i++) {
-    digitalWrite(_pin, HIGH);
-    delay(30);
-
-    digitalWrite(_pin, LOW);
-    delay(40);
-  }
+  digitalWrite(_pin, HIGH);
+  delay(30);
+  digitalWrite(_pin, LOW);
 }
 
 void VibrationMotor::vibrateLow() {
-  for(int i = 0; i < 3; i++) {
-    digitalWrite(_pin, HIGH);
-    delay(50);
-
-    digitalWrite(_pin, LOW);
-    delay(300);
-  }
+  digitalWrite(_pin, HIGH);
+  delay(50);
+  digitalWrite(_pin, LOW);
 }

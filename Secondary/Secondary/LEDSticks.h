@@ -1,12 +1,9 @@
 #include <Arduino.h>
 #include "Adafruit_NeoPixel.h"
 
-#define NUMPIXELS 10 //Indicates that the LED stick has 10 addressable LEDs
+enum ScrollDirection { forward, backward };
 
-enum ScrollDirection {
-  forward,
-  backward
-};
+#define NUMPIXELS 10 //Indicates that the LED stick has 10 addressable LEDs
 
 // This class allows for controlling two LED stick modules simultaneously.
 class LEDSticks {
