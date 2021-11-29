@@ -5,6 +5,8 @@ class LED {
     LED(int pin);
     void begin();
     void blink(AlertPriority priority);
+    void on();
+    void off();
 
   private:
     int _pin;
@@ -30,6 +32,14 @@ void LED::blink(AlertPriority priority) {
       ledBlink(_pin, 30);
       break;
   }
+}
+
+void LED::on() {
+  digitalWrite(_pin, HIGH);
+}
+
+void LED::off() {
+  digitalWrite(_pin, LOW);
 }
 
 // PRIVATE METHODS
