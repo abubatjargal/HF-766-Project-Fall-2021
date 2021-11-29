@@ -3,6 +3,8 @@ class VibrationMotor {
     VibrationMotor(int pin);
     void begin();
     void vibrate(AlertPriority priority);
+    void vibrationOn();
+    void vibrationOff();
 
   private:
     int _pin;
@@ -27,6 +29,14 @@ void VibrationMotor::vibrate(AlertPriority priority) {
       vibrateHigh();
       break;
   }
+}
+
+void VibrationMotor::vibrationOn() {
+  digitalWrite(_pin, HIGH);
+}
+
+void VibrationMotor::vibrationOff() {
+  digitalWrite(_pin, LOW);
 }
 
 void VibrationMotor::vibrateHigh() {

@@ -5,8 +5,13 @@ class LED {
     LED(int pin);
     void begin();
     void blink(AlertPriority priority);
+    void on();
+    void off();
+    bool isOn();
+    bool isOff();
 
   private:
+    bool _onState;
     int _pin;
     int ledBlink(int pin, int onDuration);
 };
@@ -15,6 +20,7 @@ class LED {
 
 LED::LED(int pin) {
   _pin = pin;
+  _onState = false;
 }
 
 void LED::begin() {
@@ -31,6 +37,25 @@ void LED::blink(AlertPriority priority) {
       break;
   }
 }
+
+void LED::on() {
+  digitalWrite(_pin, HIGH);
+  _onState = true;
+}
+
+void LED::off() {
+  digitalWrite(_pin, LOW);
+  _onState = false;
+}
+
+bool LED::isOn() {
+  return _onState;
+}
+
+bool LED::isOff() {
+  return !_onState;
+}
+
 
 // PRIVATE METHODS
 
