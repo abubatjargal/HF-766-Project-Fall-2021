@@ -1,6 +1,6 @@
 #include "Led.h"
 #include "VibrationMotor.h"
-#include "LEDStick.h"
+#include "LEDSticks.h"
 
 /**
    THIS IS THE MAIN CONTROLLER FOR DETECTING INPUTS AND ALERTING THE USER
@@ -13,8 +13,8 @@ const int LEDPin2 = 3; // RGIHT SIDE
 const int VibrationMotorPin1 = 5; // LEFT SIDE
 const int VibrationMotorPin2 = 7; // RIGHT SIDE
 
-const int LEDStickPin1 = 2;
-const int LEDStickPin2 = 6;
+const int LEDStickPin1 = 2; // LEFT SIDE
+const int LEDStickPin2 = 6; // RIGHT SIDE
 
 // Variables
 enum AlertSide { left, right };
@@ -27,18 +27,18 @@ LEDSticks sticks = LEDSticks(LEDStickPin1, LEDStickPin2);
 VibrationMotor vibrationMotor1(VibrationMotorPin1); // LEFT SIDE
 VibrationMotor vibrationMotor2(VibrationMotorPin2); // RIGHT SIDE
 
-unsigned long arc_millis;
-unsigned long alc_millis;
+unsigned long arc_millis; // Alert Right Count
+unsigned long alc_millis; // Alert Left Count
 
 // Timer variable used to track millisecond changes
 unsigned long lsc_millis;
 
 // Counters used to keep track of the number of times LED blinks and haptic motor activates
-int arc = 0;
-int alc = 0;
+int arc = 0; // Alert Right Count
+int alc = 0; // Alert Left Count
 
 // Counter used to keep track of what LED Pixel is activated in LED Sticks
-int lsc = 0;
+int lsc = 0; // Light Strip Count
 
 void setup() {
   // Init serial comm
