@@ -40,6 +40,10 @@ void LEDSticks::begin() {
 
   pixels1.begin();
   pixels2.begin();
+
+  for(int i = 0; i < 10; i++) {
+    off(i);
+  }
 }
 
 void LEDSticks::on(int pixel) {
