@@ -4,7 +4,7 @@ Serial myPort;
 
 void setup() {
   // Setup canvas
-  size(1200,500);
+  size(1200,800);
   surface.setTitle("Control Panel");
   surface.setResizable(true);
   

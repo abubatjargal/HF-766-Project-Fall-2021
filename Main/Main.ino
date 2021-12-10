@@ -10,11 +10,11 @@
 const int LEDPin1 = 4; // LEFT SIDE
 const int LEDPin2 = 3; // RGIHT SIDE
 
-const int VibrationMotorPin1 = 5; // LEFT SIDE
-const int VibrationMotorPin2 = 7; // RIGHT SIDE
-
 const int LEDStickPin1 = 2; // LEFT SIDE
 const int LEDStickPin2 = 6; // RIGHT SIDE
+
+const int VibrationMotorPin1 = 5; // LEFT SIDE
+const int VibrationMotorPin2 = 7; // RIGHT SIDE
 
 // Variables
 enum AlertSide { left, right };
@@ -39,6 +39,9 @@ int alc = 0; // Alert Left Count
 
 // Counter used to keep track of what LED Pixel is activated in LED Sticks
 int lsc = 0; // Light Strip Count
+
+bool ledEnabled = false;
+bool vibrationEnabled = false;
 
 void setup() {
   // Init serial comm
@@ -68,16 +71,36 @@ void loop() {
   shouldAlertLeft();
 }
 
+// 1: Left
+// 2: Right
+// 3: LED Enabled
+// 4: LED Disabled
+// 5: Vibration Enabled
+// 6: Vibration Disabled
+
 void parseSerialInput() {
   // Parse incoming serial input from Processing UI
   if (Serial.available() > 0) {
     char state = Serial.read();
-    if (state == '1') {
-      // ALERT LEFT
-      alc = 1;
-    } else if (state == '2') {
-      // ALERT RIGHT
-      arc = 1;
+    switch(state) {
+      case '1':
+        alc = 1;
+        break;
+      case '2':
+        arc = 1;
+        break;
+      case '3':
+        ledEnabled = true;
+        break;
+      case '4':
+        ledEnabled = false;
+        break;
+      case '5':
+        vibrationEnabled = true;
+        break;
+      case '6':
+        vibrationEnabled = false;
+        break;
     }
   }
 }
@@ -153,20 +176,36 @@ void alert(AlertSide side, bool isOn) {
   switch (side) {
     case left:
       if (isOn) {
-        led1.on();
-        vibrationMotor1.vibrationOn();
+        if (ledEnabled) {
+          led1.on();
+        }        
+        if (vibrationEnabled) {
+          vibrationMotor1.vibrationOn();
+        }
       } else {
-        led1.off();
-        vibrationMotor1.vibrationOff();
+        if (ledEnabled) {
+          led1.off();
+        }        
+        if (vibrationEnabled) {
+          vibrationMotor1.vibrationOff();
+        }
       }
       break;
     case right:
       if (isOn) {
-        led2.on();
-        vibrationMotor2.vibrationOn();
+        if (ledEnabled) {
+          led2.on();
+        }        
+        if (vibrationEnabled) {
+          vibrationMotor2.vibrationOn();
+        }
       } else {
-        led2.off();
-        vibrationMotor2.vibrationOff();
+        if (ledEnabled) {
+          led2.off();
+        }        
+        if (vibrationEnabled) {
+          vibrationMotor2.vibrationOff();
+        }
       }
       break;
   }

@@ -3,8 +3,17 @@ int rightRectX, rightRectY;
 int rectSize;
 color rectColor, rectHighlight;
 
+int ledConfigRectX, ledConfigRectY;
+int vibrationConfigRectX, vibrationConfigRectY;
+int configRectSize;
+
+color configEnabledColor, configDisabledColor;
+
 boolean leftButtonOver = false;
 boolean rightButtonOver = false;
+
+boolean ledEnabled = false;
+boolean vibrationEnabled = false;
 
 PFont f;
 
@@ -27,11 +36,27 @@ void setupButtons(int size) {
   // Constrain to left side of window
   leftRectX = int(50);
   leftRectY = 20;
+  
+  // Enabled is green. Disabled is red.
+  configEnabled = color(0, 255, 0);
+  configDisabled = color(255, 0, 0);
+  
+  configRectSize = 200;
+  
+  ledConfigRectX = width / 2 - configRectSize / 2;
+  ledConfigRectY = (height / 3) * 2;
+  
+  vibrationConfigRectX = ledConfigRectX;
+  vibrationConfigRectY = ledConfigRectY + 100;
 }
 
 void drawButtons() {
+  drawLEDConfigButton();
+  drawVibrationConfigButton();
+  
   drawLeftButton();
   drawRightButton();
+  
   update(mouseX, mouseY);
 }
 
@@ -90,6 +115,31 @@ void drawRightButton() {
   noFill();
   rect(leftRectX, leftRectY, rectSize, rectSize);
 }
+
+// Draw LED Config Button
+void drawLEDConfigButton() {
+  noStroke();
+  fill(ledEnabled ? configEnabledColor : configDisabledColor);
+  rect(ledConfigRectX, ledConfigRectY, configRectSize, configRectSize / 3, 20);
+  
+  fill(0);
+  textAlign(CENTER);
+  textSize(20);
+  text(ledEnabled ? "LED Enabled" : "LED Disabled", width / 2 , ledConfigRectY + configRectSize / 6 + 8);
+}
+
+// Draw Vibration Config Button
+void drawVibrationConfigButton() {
+  noStroke();
+  fill(vibrationEnabled ? configEnabledColor : configDisabledColor);
+  rect(vibrationConfigRectX, vibrationConfigRectY, configRectSize, configRectSize / 3, 20);
+  
+  fill(0);
+  textAlign(CENTER);
+  textSize(20);
+  text(ledEnabled ? "Vibration Enabled" : "Vibration Disabled", width / 2 , vibrationConfigRectY + configRectSize / 6 + 8);
+}
+
 
 // Check if mouse is hovering over left and right buttons
 void update(int x, int y) {
