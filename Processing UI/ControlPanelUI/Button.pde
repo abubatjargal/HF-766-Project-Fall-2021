@@ -12,6 +12,9 @@ color configEnabledColor, configDisabledColor;
 boolean leftButtonOver = false;
 boolean rightButtonOver = false;
 
+boolean ledConfigButtonOver = false;
+boolean vibrationConfigButtonOver = false;
+
 boolean ledEnabled = false;
 boolean vibrationEnabled = false;
 
@@ -38,8 +41,8 @@ void setupButtons(int size) {
   leftRectY = 20;
   
   // Enabled is green. Disabled is red.
-  configEnabled = color(0, 255, 0);
-  configDisabled = color(255, 0, 0);
+  configEnabledColor = color(0, 255, 0);
+  configDisabledColor = color(255, 0, 0);
   
   configRectSize = 200;
   
@@ -137,23 +140,18 @@ void drawVibrationConfigButton() {
   fill(0);
   textAlign(CENTER);
   textSize(20);
-  text(ledEnabled ? "Vibration Enabled" : "Vibration Disabled", width / 2 , vibrationConfigRectY + configRectSize / 6 + 8);
+  text(vibrationEnabled ? "Vibration Enabled" : "Vibration Disabled", width / 2 , vibrationConfigRectY + configRectSize / 6 + 8);
 }
 
 
 // Check if mouse is hovering over left and right buttons
 void update(int x, int y) {
-  if (overRect(leftRectX, leftRectY, rectSize, rectSize)) {
-    leftButtonOver = true;
-  } else {
-    leftButtonOver = false;
-  }
+  leftButtonOver = overRect(leftRectX, leftRectY, rectSize, rectSize);
   
-  if (overRect(rightRectX, rightRectY, rectSize, rectSize)) {
-    rightButtonOver = true;
-  } else {
-    rightButtonOver = false;
-  }
+  rightButtonOver = overRect(rightRectX, rightRectY, rectSize, rectSize);
+
+  ledConfigButtonOver = overRect(ledConfigRectX, ledConfigRectY, configRectSize, configRectSize / 3);
+  vibrationConfigButtonOver = overRect(vibrationConfigRectX, vibrationConfigRectY, configRectSize, configRectSize / 3);
 }
 
 // Returns true if mouse is within given bounds

@@ -26,6 +26,13 @@ void draw() {
   drawButtons();
 }
 
+// 1: Left
+// 2: Right
+// 3: LED Enabled
+// 4: LED Disabled
+// 5: Vibration Enabled
+// 6: Vibration Disabled
+
 void mousePressed() {
   if (leftButtonOver) {
     // LEFT BUTTON CLICK
@@ -33,5 +40,19 @@ void mousePressed() {
   } else if (rightButtonOver) {
     // RIGHT BUTTON CLICK
     myPort.write('2');
+  } else if (ledConfigButtonOver) {
+    ledEnabled = !ledEnabled;
+    if (ledEnabled) {
+      myPort.write('3');
+    } else {
+      myPort.write('4');
+    }
+  } else if (vibrationConfigButtonOver) {
+    vibrationEnabled = !vibrationEnabled;
+    if (vibrationEnabled) {
+      myPort.write('5');
+    } else {
+      myPort.write('6');
+    }
   }
 }
