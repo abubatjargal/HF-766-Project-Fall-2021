@@ -7,14 +7,14 @@
 */
 
 // PINS
-const int LEDPin1 = 4; // LEFT SIDE
-const int LEDPin2 = 3; // RGIHT SIDE
+const int LEDPin1 = 8; // LEFT SIDE
+const int LEDPin2 = 4; // RGIHT SIDE
 
-const int LEDStickPin1 = 2; // LEFT SIDE
-const int LEDStickPin2 = 6; // RIGHT SIDE
+const int LEDStickPin1 = 7; // LEFT SIDE
+const int LEDStickPin2 = 3; // RIGHT SIDE
 
-const int VibrationMotorPin1 = 5; // LEFT SIDE
-const int VibrationMotorPin2 = 7; // RIGHT SIDE
+const int VibrationMotorPin1 = 6; // LEFT SIDE
+const int VibrationMotorPin2 = 2; // RIGHT SIDE
 
 // Variables
 enum AlertSide { left, right };
@@ -91,15 +91,23 @@ void parseSerialInput() {
         break;
       case '3':
         ledEnabled = true;
+        alc = 0;
+        arc = 0;
         break;
       case '4':
         ledEnabled = false;
+        alc = 0;
+        arc = 0;
         break;
       case '5':
         vibrationEnabled = true;
+        alc = 0;
+        arc = 0;
         break;
       case '6':
         vibrationEnabled = false;
+        alc = 0;
+        arc = 0;
         break;
     }
   }
@@ -130,17 +138,22 @@ void shouldAlertRight() {
 
     if (arc == 11) {
       arc = 0;
-      alert(right, false);
+      alertLed(right, true);
+      alertVibration(right, true);
     }
 
     if (millis() > arc_millis + 50) {
 
-      if (led2.isOff()) {
+      if (ledEnabled && vibrationEnabled) {
         arc++;
-        alert(right, true);
-      } else {
+        alertLed(right, led2.isOn());
+        alertVibration(right, vibrationMotor2.isOn());
+      } else if (ledEnabled) {
         arc++;
-        alert(right, false);
+        alertLed(right, led2.isOn());        
+      } else if (vibrationEnabled) {
+        arc++;
+        alertVibration(right, vibrationMotor2.isOn());
       }
 
       arc_millis = millis();
@@ -154,17 +167,22 @@ void shouldAlertLeft() {
 
     if (alc == 11) {
       alc = 0;
-      alert(left, false);
+      alertLed(left, true);
+      alertVibration(left, true);
     }
 
     if (millis() > alc_millis + 50) {
 
-      if (led1.isOff()) {
+      if (ledEnabled && vibrationEnabled) {
         alc++;
-        alert(left, true);
-      } else {
+        alertLed(left, led1.isOn());
+        alertVibration(left, vibrationMotor1.isOn());
+      } else if (ledEnabled) {
         alc++;
-        alert(left, false);
+        alertLed(left, led1.isOn());
+      } else if (vibrationEnabled) {
+        alc++;
+        alertVibration(left, vibrationMotor1.isOn());
       }
 
       alc_millis = millis();
@@ -172,40 +190,39 @@ void shouldAlertLeft() {
   }
 }
 
-void alert(AlertSide side, bool isOn) {
+void alertLed(AlertSide side, bool isOn) {
   switch (side) {
     case left:
       if (isOn) {
-        if (ledEnabled) {
-          led1.on();
-        }        
-        if (vibrationEnabled) {
-          vibrationMotor1.vibrationOn();
-        }
+        led1.off();
       } else {
-        if (ledEnabled) {
-          led1.off();
-        }        
-        if (vibrationEnabled) {
-          vibrationMotor1.vibrationOff();
-        }
+        led1.on();
       }
       break;
     case right:
       if (isOn) {
-        if (ledEnabled) {
-          led2.on();
-        }        
-        if (vibrationEnabled) {
-          vibrationMotor2.vibrationOn();
-        }
+        led2.off();
       } else {
-        if (ledEnabled) {
-          led2.off();
-        }        
-        if (vibrationEnabled) {
-          vibrationMotor2.vibrationOff();
-        }
+        led2.on();
+      }
+      break;            
+  }
+}
+
+void alertVibration(AlertSide side, bool isOn) {
+  switch (side) {
+    case left:
+      if (isOn) {
+        vibrationMotor1.off();
+      } else {
+        vibrationMotor1.on();
+      }
+      break;
+    case right:
+      if (isOn) {
+        vibrationMotor2.off();
+      } else {
+        vibrationMotor2.on();
       }
       break;
   }

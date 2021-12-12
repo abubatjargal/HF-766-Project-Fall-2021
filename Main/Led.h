@@ -5,7 +5,6 @@ class LED {
     void on();
     void off();
     bool isOn();
-    bool isOff();
 
   private:
     bool _onState;
@@ -35,8 +34,4 @@ void LED::off() {
 
 bool LED::isOn() {
   return _onState;
-}
-
-bool LED::isOff() {
-  return !_onState;
 }
